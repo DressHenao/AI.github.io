@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Production Time Calculator : BLC AI</title>
+  <meta name="description" content="Calculate realistic commercial turnaround times for AI image generation, motion iteration, and professional human retouch finishing.">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="site-nav">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-link">
+        <!-- Minimalist Stylized AI Vector Monogram -->
+        <svg class="brand-mark" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="16" height="16" rx="4" stroke="#111111" stroke-width="2"/>
+          <circle cx="10" cy="10" r="3.5" fill="#111111"/>
+          <path d="M10 2v3M10 15v3M2 10h3M15 10h3" stroke="#111111" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span>BLC AI</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="how-to-produce.html">How to Produce with AI</a></li>
+        <li><a href="when-to-use.html">When to Use AI</a></li>
+        <li><a href="time-calculator.html" class="active">Time Calculator</a></li>
+        <li><a href="model-stack.html">Model Stack</a></li>
+      </ul>
+
+      <a href="time-calculator.html" class="pill-cta">
+        <span>Calculate Time</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+       SECTION: AI PRODUCTION TIME CALCULATOR (Interactive Tool)
+       ========================================================================= -->
+  <main class="section-padding" id="calculator">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Estimator</span>
+        <h1 class="section-title">AI Production Time Calculator</h1>
+        <p class="section-lead">
+          Curious how long an AI-driven campaign actually takes? 
+          Unlike instant demo videos on Twitter, real commercial production requires prompt iterations, seed filtering, and deep human retouching. 
+          Use our production calculator below to get realistic studio hours.
+        </p>
+      </div>
+
+      <div class="calc-board">
+        <div class="calc-grid">
+          
+          <!-- Column 1: Controls & Inputs -->
+          <div class="calc-inputs-column">
+            
+            <!-- Hero Images Slider -->
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="calc-images" class="calc-label">Number of Approved Hero Stills:</label>
+                <span class="calc-val-badge" id="val-images">3 stills</span>
+              </div>
+              <input type="range" id="calc-images" min="1" max="20" value="3" step="1">
+              <p style="font-size: 12px; color: var(--sub);">
+                Benchmark: ~1 hour of prompt generation/selection per winning still + 5 to 8 hours retouch.
+              </p>
+            </div>
+
+            <!-- Video Clips Slider -->
+            <div class="calc-input-group">
+              <div class="calc-label-row">
+                <label for="calc-videos" class="calc-label">Number of 5-Second Video Shots:</label>
+                <span class="calc-val-badge" id="val-videos">2 shots (10s total)</span>
+              </div>
+              <input type="range" id="calc-videos" min="0" max="30" value="2" step="1">
+              <p style="font-size: 12px; color: var(--sub);">
+                Benchmark: ~1 hour prompt iteration per 5s shot + 6 hours motion retouch & upscale.
+              </p>
+            </div>
+
+            <!-- Retouch Standard Toggle -->
+            <div class="calc-input-group">
+              <label class="calc-label">Retouch & Finishing Standard:</label>
+              <div class="tier-toggle-wrap">
+                <label class="tier-radio-card">
+                  <input type="radio" name="calc-tier" value="standard">
+                  <span class="tier-title">Standard Commercial</span>
+                  <span class="tier-desc">5h retouch/image · 5h retouch/video</span>
+                </label>
+                <label class="tier-radio-card">
+                  <input type="radio" name="calc-tier" value="master" checked>
+                  <span class="tier-title">Master Editorial & 4K</span>
+                  <span class="tier-desc">8h retouch/image · 6h retouch/video</span>
+                </label>
+              </div>
+            </div>
+
+            <button class="pill-cta" id="copy-estimate-btn" style="align-self: flex-start; margin-top: 10px;">
+              <span>Copy Scope Summary</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+
+          </div>
+
+          <!-- Column 2: Live Results Dashboard -->
+          <div class="calc-results-column">
+            
+            <div class="calc-stats-row">
+              <div class="stat-box">
+                <span class="stat-label">AI Generation Time</span>
+                <span class="stat-num" id="out-ai-gen">5h</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">Human Retouch & Post</span>
+                <span class="stat-num" id="out-retouch">36h</span>
+              </div>
+            </div>
+
+            <div class="stat-box" style="background: #ffffff; border-color: rgba(17,17,17,0.14);">
+              <span class="stat-label">Total Studio Production Time</span>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                <span class="stat-num stat-num-total" id="out-total">41 hrs</span>
+                <span style="font-size: 14px; font-weight: 500; color: #16a34a;" id="out-days">~6 business days</span>
+              </div>
+            </div>
+
+            <!-- The Reality Ratio (Craft vs AI) -->
+            <div class="craft-ratio-card">
+              <div class="craft-ratio-header">
+                <span>The Production Reality:</span>
+                <span id="out-craft-ratio">88% Human Craft / 12% AI</span>
+              </div>
+              <div class="craft-ratio-bar">
+                <div class="bar-craft" id="craft-bar" style="width: 88%;"></div>
+                <div class="bar-ai" id="ai-bar" style="width: 12%;"></div>
+              </div>
+              <p class="craft-note">
+                Notice: AI dramatically accelerates creative iteration, but <strong>over 80% of actual delivery time is spent on skilled human retouching, compositing, and audio</strong>.
+              </p>
+            </div>
+
+            <!-- Comparison vs Traditional Shoot -->
+            <div class="traditional-comp-box" id="traditional-comparison">
+              <!-- Rendered dynamically by calculator.js -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Studio Benchmarks Explanation -->
+      <div class="philosophy-card" style="margin-top: 48px;">
+        <span class="section-tag">Production Benchmarks</span>
+        <h3 class="philosophy-title">How the Estimation Works</h3>
+        <p class="philosophy-text" style="margin-bottom: 20px;">
+          Our calculation formula is based on real commercial studio workflows, not theoretical AI generation speeds:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; text-align: left;">
+          <div style="padding: 16px; background: rgba(0,0,0,0.02); border-radius: 12px;">
+            <strong style="color: var(--ink); display: block; margin-bottom: 6px;">Hero Stills</strong>
+            <span style="font-size: 13.5px; color: var(--sub);">1 hour of prompt generation and seed curation until reaching 1 winning frame, plus 5 to 8 hours of master high-end retouching in Photoshop and Magnific.</span>
+          </div>
+          <div style="padding: 16px; background: rgba(0,0,0,0.02); border-radius: 12px;">
+            <strong style="color: var(--ink); display: block; margin-bottom: 6px;">5-Second Motion Shots</strong>
+            <span style="font-size: 13.5px; color: var(--sub);">1 hour of motion keyframe iteration and camera trajectory tests, plus 5 to 6 hours of motion deblurring, neural upscaling, and DaVinci color grading.</span>
+          </div>
+          <div style="padding: 16px; background: rgba(0,0,0,0.02); border-radius: 12px;">
+            <strong style="color: var(--ink); display: block; margin-bottom: 6px;">Turnaround Schedule</strong>
+            <span style="font-size: 13.5px; color: var(--sub);">Calculated against a focused 7-hour studio production workday, allowing realistic delivery timelines without burnout or rushed quality.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Navigation Banner -->
+      <div class="page-next-banner">
+        <div class="page-next-content">
+          <span class="page-next-tag">Next Section</span>
+          <h3 class="page-next-title">The Active Model Stack</h3>
+          <p class="page-next-desc">
+            Explore our curated directory of 20+ foundation models across reasoning, image diffusion, motion physics, and neural mastering.
+          </p>
+        </div>
+        <a href="model-stack.html" class="pill-cta">
+          <span>Browse Model Stack</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <h4 class="footer-brand-title">BLC AI</h4>
+          <p class="footer-brand-desc">
+            The studio standard for intelligent creative production. 
+            Blending frontier foundation models with senior human art direction, compositing, and color science.
+          </p>
+        </div>
+
+        <div class="footer-links-col">
+          <div>
+            <div class="link-group-title">The Platform</div>
+            <ul class="footer-nav-list">
+              <li><a href="index.html">Home Overview</a></li>
+              <li><a href="how-to-produce.html">The 8-Step Pipeline</a></li>
+              <li><a href="when-to-use.html">When to Use AI</a></li>
+              <li><a href="time-calculator.html">Production Time Calculator</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="link-group-title">Model Ecosystem</div>
+            <ul class="footer-nav-list">
+              <li><a href="model-stack.html">Krea.AI Suite</a></li>
+              <li><a href="model-stack.html">Flux 3 Pro</a></li>
+              <li><a href="model-stack.html">Runway Gen-3</a></li>
+              <li><a href="model-stack.html">Kling 4</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="link-group-title">Initiate Project</div>
+            <ul class="footer-nav-list">
+              <li><a href="time-calculator.html">Calculate Production Scope</a></li>
+              <li><a href="how-to-produce.html">Explore The Workflow</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 BLC AI. Crafted for modern creators & studios.</div>
+        <div>Off-white dot-matrix aesthetic · Human-in-the-loop pipeline.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="calculator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
