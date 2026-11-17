@@ -357,13 +357,13 @@ a {
 }
 
 /* ==========================================================================
-   Section: HOW TO PRODUCE WITH AI (8 Steps)
+   Section: HOW TO PRODUCE WITH AI (9 Steps)
    ========================================================================== */
 
 .workflow-video-container {
   width: 100%;
   max-width: 960px;
-  margin: 0 auto clamp(28px, 4.5vw, 48px);
+  margin: 0 auto clamp(24px, 4vw, 36px);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
@@ -380,71 +380,429 @@ a {
   outline: none;
 }
 
+/* 9-Step Simplified Overview Timeline (Black line with black circles & white text) */
+.pipeline-overview-bar {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto clamp(32px, 5vw, 54px);
+  position: relative;
+}
+
+.pipeline-track {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px 0 46px;
+}
+
+.pipeline-line {
+  position: absolute;
+  top: 37px;
+  left: 21px;
+  right: 21px;
+  height: 2px;
+  background: #111111;
+  z-index: 1;
+}
+
+/* Reconnecting Straight 90° Return Line in same style as main line (Step 09 -> Step 03) */
+.pipeline-reconnect-wrap {
+  position: absolute;
+  top: 84px;
+  left: calc(25% + 10.5px);
+  right: 21px;
+  height: 18px;
+  border-left: 2px solid #111111;
+  border-bottom: 2px solid #111111;
+  border-right: 2px solid #111111;
+  border-top: none;
+  border-radius: 0;
+  z-index: 2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.pipeline-reconnect-wrap:hover {
+  opacity: 0.65;
+}
+
+.reconnect-subtext {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mute);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  group: hover;
+}
+
+.step-node-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #111111;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.step-node:hover .step-node-circle {
+  transform: scale(1.14);
+  background: #000000;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.step-node-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 10px;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+
+.step-node:hover .step-node-name {
+  color: #000000;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .pipeline-overview-bar {
+    overflow-x: auto;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .pipeline-track {
+    min-width: 760px;
+    padding: 16px 0 46px;
+  }
+  .pipeline-line {
+    left: 21px;
+    right: 21px;
+    top: 37px;
+  }
+}
+
+/* Step Cards Layout: Left-Aligned Content + Right-Side Icon */
 .workflow-timeline {
   display: flex;
   flex-direction: column;
-  gap: 36px;
-  margin-top: 40px;
+  gap: 28px;
+  margin-top: 36px;
 }
 
 .step-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 20px;
-  padding: clamp(28px, 4vw, 44px);
+  padding: clamp(28px, 4vw, 40px);
   position: relative;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  scroll-margin-top: 100px;
 }
 
 .step-card:hover {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-  border-color: rgba(17, 17, 17, 0.14);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.04);
+  border-color: rgba(17, 17, 17, 0.16);
+  transform: translateY(-2px);
 }
 
-.step-header {
+.step-card-layout {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: clamp(24px, 4vw, 44px);
+}
+
+.step-card-content {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
 }
 
 .step-meta {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 12px;
 }
 
 .step-num {
   font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   padding: 4px 10px;
   background: var(--card-subtle);
   color: var(--ink);
   border-radius: 6px;
+  letter-spacing: 0.04em;
 }
 
 .step-stage-tag {
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--sub);
+  font-size: 11.5px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  color: var(--mute);
 }
 
 .step-title {
-  font-size: clamp(22px, 2.4vw, 30px);
-  margin-bottom: 14px;
+  font-size: clamp(22px, 2.3vw, 29px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.22;
   color: var(--ink);
+  margin-bottom: 12px;
+  text-align: left;
 }
 
 .step-desc {
-  font-size: 1.05rem;
+  font-size: 15px;
   color: var(--sub);
-  margin-bottom: 24px;
-  max-width: 900px;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 16px;
+  max-width: 680px;
+}
+
+.step-tools-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tools-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--mute);
+  margin-right: 4px;
+}
+
+.tool-chip {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: -0.01em;
+}
+
+/* Step Card Image Container & Placeholder Slot */
+.step-card-image-wrap {
+  flex-shrink: 0;
+  width: clamp(280px, 36vw, 380px);
+  max-width: 44%;
+  border-radius: 14px;
+}
+
+.step-image-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  background: var(--bg);
+  border: 1.5px dashed rgba(17, 17, 17, 0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+  user-select: none;
+}
+
+.step-card:hover .step-image-placeholder {
+  border-color: rgba(17, 17, 17, 0.45);
+  background: #ffffff;
+  transform: translateY(-2px);
+}
+
+.step-image-placeholder svg {
+  color: var(--mute);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.step-card:hover .step-image-placeholder svg {
+  color: var(--ink);
+  transform: scale(1.08);
+}
+
+.placeholder-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.placeholder-hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--mute);
+  letter-spacing: 0.02em;
+}
+
+/* Pipeline Step Images */
+.step-card-image-wrap img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  display: block;
+  background: var(--card-subtle);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: zoom-in;
+}
+
+.step-card:hover .step-card-image-wrap img {
+  transform: scale(1.025);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.09);
+  border-color: rgba(17, 17, 17, 0.2);
+}
+
+/* Pipeline Image Lightbox Modal */
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(17, 17, 17, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.image-lightbox.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.image-lightbox-content {
+  position: relative;
+  max-width: min(1080px, 92vw);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.96);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.image-lightbox.active .image-lightbox-content {
+  transform: scale(1);
+}
+
+.image-lightbox-img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #000;
+}
+
+.image-lightbox-caption {
+  margin-top: 14px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  max-width: 720px;
+  line-height: 1.45;
+}
+
+.image-lightbox-close {
+  position: absolute;
+  top: -46px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.image-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.26);
+  transform: scale(1.06);
+}
+
+.point-of-no-return-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 820px) {
+  .step-card-layout {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+  }
+  .step-card-image-wrap {
+    width: 100%;
+    max-width: 100%;
+  }
+  .step-image-placeholder {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 .step-models-box {
@@ -844,6 +1202,99 @@ a {
   color: #333333;
   line-height: 1.55;
   word-break: break-word;
+}
+
+/* ==========================================================================
+   Section: THE B.AI.B.L.E (The 10 Commandments)
+   ========================================================================== */
+
+.bible-section {
+  margin-top: clamp(64px, 8vw, 110px);
+  padding-top: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--border-light);
+}
+
+.bible-header {
+  margin-bottom: clamp(36px, 5vw, 60px);
+  text-align: center;
+}
+
+.bible-subline {
+  font-size: clamp(17px, 1.4vw, 22px);
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 8px;
+  letter-spacing: -0.01em;
+}
+
+.bible-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.bible-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: clamp(28px, 3.5vw, 40px);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.bible-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(17, 17, 17, 0.2);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.04);
+}
+
+.bible-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.bible-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--card-subtle);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+.bible-badge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mute);
+}
+
+.bible-title {
+  font-size: clamp(19px, 1.6vw, 23px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.bible-body {
+  font-size: 14.5px;
+  color: var(--sub);
+  line-height: 1.6;
+}
+
+@media (max-width: 820px) {
+  .bible-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ==========================================================================
@@ -1420,6 +1871,127 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 /* ==========================================================================
+   Role Gate Screen ("Before the page is open")
+   ========================================================================== */
+
+body.gate-active .site-nav {
+  display: none !important;
+}
+
+body.gate-active .home-portals-section {
+  display: none !important;
+}
+
+body.gate-active .hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
+}
+
+body.gate-active .hero-content {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-gate-container {
+  display: none;
+  margin-top: 36px;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+  width: 100%;
+}
+
+body.gate-active .role-gate-container {
+  display: block;
+}
+
+.role-gate-buttons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.role-gate-btn {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: #111111;
+  background: var(--bg);
+  border: 1.5px solid #111111;
+  padding: 14px 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: -0.015em;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.role-gate-btn:hover {
+  background: #111111;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.role-gate-btn:active {
+  transform: translateY(0);
+}
+
+/* Nav Role Badge & Switcher */
+.nav-role-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card-subtle);
+  border: 1px solid var(--card-border);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--sub);
+  white-space: nowrap;
+}
+
+.role-badge-label {
+  font-size: 11.5px;
+  color: var(--sub);
+}
+
+.role-badge-label strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.role-switch-btn {
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.role-switch-btn:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
    Responsive Breakpoints (≤768px)
    ========================================================================== */
 
@@ -1427,6 +1999,23 @@ input[type="range"]::-webkit-slider-thumb:hover {
   .nav-container {
     flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .role-gate-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .role-gate-btn {
+    width: 100%;
+    padding: 13px 20px;
+  }
+
+  .nav-role-badge {
+    padding: 3px 8px;
+    font-size: 11px;
   }
 
   .nav-links {
