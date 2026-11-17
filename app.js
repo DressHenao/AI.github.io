@@ -179,4 +179,165 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // 5. Role Perspective Gate & Navigation Filter
+  const rolePages = {
+    pm: ['index.html', 'how-to-produce.html', 'time-calculator.html'],
+    art: ['index.html', 'the-bible.html', 'how-to-produce.html', 'when-to-use.html', 'model-stack.html', 'time-calculator.html'],
+    client: ['index.html', 'how-to-produce.html']
+  };
+
+  const roleLabels = {
+    pm: 'Projekt Leitung',
+    art: 'Art/Design',
+    client: 'Client/others'
+  };
+
+  function applyRole(role) {
+    if (!role || !rolePages[role]) role = 'art';
+    localStorage.setItem('blc_role', role);
+    sessionStorage.setItem('blc_role', role);
+
+    const allowed = rolePages[role];
+
+    // Filter Navigation Bar Links
+    document.querySelectorAll('.nav-links li').forEach((li) => {
+      const link = li.querySelector('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (allowed.includes(href)) {
+        li.style.display = '';
+      } else {
+        li.style.display = 'none';
+      }
+    });
+
+    // Filter Home Directory Portals
+    document.querySelectorAll('.portal-card').forEach((card) => {
+      const href = card.getAttribute('href');
+      if (allowed.includes(href)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Update Role Pill in Nav
+    const currentRoleEl = document.getElementById('currentRoleName');
+    if (currentRoleEl) {
+      currentRoleEl.textContent = roleLabels[role] || 'Art/Design';
+    }
+  }
+
+  const roleGate = document.getElementById('roleGate');
+  const savedRole = sessionStorage.getItem('blc_role') || localStorage.getItem('blc_role');
+  const isGateHash = window.location.hash === '#gate';
+
+  if (roleGate) {
+    // We are on index.html with the Role Gate Screen
+    if (!savedRole || isGateHash) {
+      document.body.classList.add('gate-active');
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+    } else {
+      document.body.classList.remove('gate-active');
+      applyRole(savedRole);
+    }
+
+    document.querySelectorAll('.role-gate-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const chosenRole = btn.getAttribute('data-role');
+        document.body.classList.remove('gate-active');
+        if (window.location.hash === '#gate') {
+          history.replaceState(null, '', window.location.pathname);
+        }
+        applyRole(chosenRole);
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+      });
+    });
+  } else {
+    // We are on an inner page
+    const activeRole = savedRole || 'art';
+    applyRole(activeRole);
+
+    // If an inner page is not allowed for this role, bounce back to index.html
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    if (currentPath !== 'index.html' && rolePages[activeRole] && !rolePages[activeRole].includes(currentPath)) {
+      window.location.href = 'index.html';
+    }
+  }
+
+  // Role Switch Button in Top Navigation
+  const switchRoleBtn = document.getElementById('switchRoleBtn');
+  if (switchRoleBtn) {
+    switchRoleBtn.addEventListener('click', () => {
+      localStorage.removeItem('blc_role');
+      sessionStorage.removeItem('blc_role');
+
+      const isHome = roleGate !== null;
+      if (isHome) {
+        document.body.classList.add('gate-active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+      } else {
+        window.location.href = 'index.html#gate';
+      }
+    });
+  }
+
+  // 6. Pipeline Image Lightbox Modal
+  const stepImages = document.querySelectorAll('.step-card-image-wrap img');
+  if (stepImages.length > 0) {
+    let lightbox = document.querySelector('.image-lightbox');
+    if (!lightbox) {
+      lightbox = document.createElement('div');
+      lightbox.className = 'image-lightbox';
+      lightbox.innerHTML = `
+        <div class="image-lightbox-content">
+          <button class="image-lightbox-close" aria-label="Close lightbox">&times;</button>
+          <img class="image-lightbox-img" src="" alt="Enlarged pipeline asset preview">
+          <p class="image-lightbox-caption"></p>
+        </div>
+      `;
+      document.body.appendChild(lightbox);
+    }
+
+    const lightboxImg = lightbox.querySelector('.image-lightbox-img');
+    const lightboxCaption = lightbox.querySelector('.image-lightbox-caption');
+    const closeBtn = lightbox.querySelector('.image-lightbox-close');
+
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxCaption.textContent = alt || '';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        lightboxImg.src = '';
+      }, 250);
+    }
+
+    stepImages.forEach((img) => {
+      img.addEventListener('click', () => {
+        openLightbox(img.src, img.alt);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  }
+
 });
